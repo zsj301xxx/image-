@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="data.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 800px;height:600px;float: left;background: #cccccc;margin-left: 200px"></div>
+</body>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    option = {
+        backgroundColor: '#2c343c',
+
+        title: {
+            text: 'Customized Pie',
+            left: 'center',
+            top: 20,
+            textStyle: {
+                color: '#ccc'
+            }
+        },
+
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        // visualMap: {
+        //     show: false,
+        //     min: 80,
+        //     max: 600,
+        //     inRange: {
+        //         colorLightness: [0, 1]
+        //     }
+        // },
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:[
+
+                ].sort(function (a, b) { return a.value - b.value; }),
+                // roseType: 'radius',
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    }
+                },
+
+
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    };
+    let arr=[];
+    for (let i=0;i<categories.length;i++){
+        if (i==0){continue;}
+        let name=categories[i];
+        let value=data.filter(ele=>ele[4].includes(name)).length;
+        arr.push({name,value});
+
+    }
+    option.series[0].data=arr;
+    myChart.setOption(option);
+</script>
+</html>

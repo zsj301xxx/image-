@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="data.js"></script>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script src="echarts.min.js"></script>
+</head>
+<body>
+<div class="main" style="width: 1000px;height:600px;float: left;background: #cccccc;margin-left: 200px"></div>
+</body>
+<script>
+    let myChart = echarts.init(document.querySelector('.main'));
+    let selected={};
+    let series=[];
+    categories.forEach(category=>{
+        let movies=data.filter(ele=>ele[4].includes(category));
+        if(categories=='全部'){
+            selected[category]=true;
+        }else {
+            selected[category]=false;
+        }
+
+    let obj={
+        name:category,
+        data:category=='全部' ? data : movies,
+        type:'scatter',
+        symbolSize: function (data) {
+            return Math.ceil(data[2]) / 10;
+        },
+        label: {
+            emphasis: {
+                show: true,
+                formatter: function (param) {
+                    return param.data[3];
+                },
+                position: 'top'
+            }
+        },
+        itemStyle: {
+            normal: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(125,150,122,0.1)',
+                shadowOffsetY: 5,
+                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                    offset: 0,
+                    color: 'rgb(238,109,55)'
+                }, {
+                    offset: 1,
+                    color: 'rgb(207,157,135)'
+                }])
+            }
+        }
+    };
+    series.push(obj);
+    });
+  let option={
+      backgroundColor: new echarts.graphic.RadialGradient(0.7, 0.6, 0.7, [{
+          offset: 0,
+          color: '#f5f8ff'
+      }, {
+          offset: 1,
+          color: '#fff8f8'
+      }]),
+      title: {
+          text: ''
+
+      },
+      xAxis: {
+          color: 'rgb(45, 103, 207)',
+          name:'评论次数',
+          splitLine: {
+              lineStyle: {
+                  type: 'dashed'
+              }
+          }
+      },
+      yAxis: {
+          color: 'rgb(45, 103, 207)',
+          name:'评价',
+          splitLine: {
+              lineStyle: {
+                  type: 'dashed'
+              }
+          },
+          scale: true
+      },
+      legend: {
+          data:categories,
+          selected,
+         selectedMode:'single'
+      },
+      series
+  };
+    myChart.setOption(option);
+
+
+
+
+</script>
+</html>
